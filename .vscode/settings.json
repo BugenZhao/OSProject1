@@ -1,0 +1,11 @@
+{
+    "files.associations": {
+        "*.s": "asm",
+        "module.h": "c",
+        "unistd.h": "c",
+        "sched.h": "c",
+        "stdio.h": "c",
+        "kernel.h": "c",
+        "hello.h": "c"
+    }
+}
