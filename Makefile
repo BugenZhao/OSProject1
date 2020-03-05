@@ -13,15 +13,14 @@ DEST_MODULE=${DEST_DIR}/${MODULE_NAME}
 nothing:
 	@echo "Hello!"
 
-emulate:
-	./run.sh
+emulator:
+	./run_emulator.sh
 
 shell:
 	adb shell
 
 build:
-	cd ${OBJ_DIR}/jni && ndk-build
-	make -C ${MODULE_DIR} clean
+	make -C ${OBJ_DIR}
 	make -C ${MODULE_DIR}
 
 upload:
@@ -36,3 +35,7 @@ run: build upload
 	adb shell insmod ${DEST_MODULE}
 	adb shell lsmod
 	adb shell ${DEST_OBJ}
+
+clean:
+	make -C ${OBJ_DIR} clean
+	make -C ${MODULE_DIR} clean

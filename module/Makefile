@@ -1,5 +1,5 @@
 obj-m := hello_module.o
-KID := ../kernel/goldfish
+KID := ~/Android/kernel/goldfish
 TOOLCHAIN=/home/bugenzhao/Android/android-ndk-linux/toolchains/arm-linux-androideabi-4.9/prebuilt/linux-x86_64/bin
 CROSS_COMPILE=$(TOOLCHAIN)/arm-linux-androideabi-
 CC=$(CROSS_COMPILE)gcc

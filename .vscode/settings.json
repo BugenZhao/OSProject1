@@ -6,6 +6,22 @@
         "sched.h": "c",
         "stdio.h": "c",
         "kernel.h": "c",
-        "hello.h": "c"
+        "hello.h": "c",
+        "kmod.h": "c",
+        "gfp.h": "c",
+        "mmzone.h": "c",
+        "spinlock.h": "c",
+        "cache.h": "c",
+        "stddef.h": "c",
+        "barrier.h": "c",
+        "memory.h": "c",
+        "sizes.h": "c",
+        "memory_hotplug.h": "c",
+        "notifier.h": "c",
+        "rwsem.h": "c",
+        "printk.h": "c",
+        "*.tcc": "cpp",
+        "compiler.h": "c",
+        "compiler-gcc.h": "c"
     }
 }
