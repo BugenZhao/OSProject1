@@ -22,6 +22,7 @@
         "printk.h": "c",
         "*.tcc": "cpp",
         "compiler.h": "c",
-        "compiler-gcc.h": "c"
+        "compiler-gcc.h": "c",
+        "init.h": "c"
     }
 }

@@ -5,20 +5,20 @@
             "includePath": [
                 "${workspaceFolder}/**",
                 "~/Android/kernel/goldfish/include",
-                "~/Android/kernel/goldfish/arch/arm/include",
-                "~/Android/kernel/goldfish/arch/arm/include/generated"
+                "~/Android/kernel/goldfish/arch/arm/include"
             ],
-            "defines": [],
+            "defines": [
+                "__KERNEL__",
+                "__GNUC__=4"
+            ],
             "compilerPath": "/usr/bin/gcc",
             "cStandard": "c99",
-            "cppStandard": "c++03",
             "intelliSenseMode": "gcc-x64",
             "browse": {
                 "path": [
                     "${workspaceFolder}/**",
                     "~/Android/kernel/goldfish/include",
-                    "~/Android/kernel/goldfish/arch/arm/include",
-                    "~/Android/kernel/goldfish/arch/arm/include/generated"
+                    "~/Android/kernel/goldfish/arch/arm/include"
                 ],
                 "limitSymbolsToIncludedHeaders": true,
                 "databaseFilename": ""
