@@ -9,7 +9,8 @@
             ],
             "defines": [
                 "__KERNEL__",
-                "__GNUC__=4"
+                "__GNUC__=4",
+                "_GNU_SOURCE"
             ],
             "compilerPath": "/usr/bin/gcc",
             "cStandard": "c89",
