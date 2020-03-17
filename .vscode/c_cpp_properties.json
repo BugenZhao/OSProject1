@@ -12,7 +12,7 @@
                 "__GNUC__=4"
             ],
             "compilerPath": "/usr/bin/gcc",
-            "cStandard": "c99",
+            "cStandard": "c89",
             "intelliSenseMode": "gcc-x64",
             "browse": {
                 "path": [

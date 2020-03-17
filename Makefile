@@ -1,7 +1,7 @@
-OBJ_DIR=./hello
-OBJ_NAME=helloARM
-MODULE_DIR=./module
-MODULE_NAME=hello_module.ko
+OBJ_DIR=./ptree_test
+OBJ_NAME=ptree_test
+MODULE_DIR=./ptree
+MODULE_NAME=ptree.ko
 
 OBJ=${OBJ_DIR}/libs/armeabi/${OBJ_NAME}
 MODULE=${MODULE_DIR}/${MODULE_NAME}
@@ -35,6 +35,7 @@ run: build upload
 	adb shell insmod ${DEST_MODULE}
 	adb shell lsmod
 	adb shell ${DEST_OBJ}
+	adb shell rmmod ${DEST_MODULE}
 
 clean:
 	make -C ${OBJ_DIR} clean

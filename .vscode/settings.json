@@ -23,6 +23,14 @@
         "*.tcc": "cpp",
         "compiler.h": "c",
         "compiler-gcc.h": "c",
-        "init.h": "c"
+        "init.h": "c",
+        "functional": "cpp",
+        "fstream": "cpp",
+        "istream": "cpp",
+        "streambuf": "cpp",
+        "prinfo.h": "c",
+        "ptree.h": "c",
+        "syscalls.h": "c",
+        "types.h": "c"
     }
 }
