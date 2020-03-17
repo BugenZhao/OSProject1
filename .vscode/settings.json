@@ -31,6 +31,7 @@
         "prinfo.h": "c",
         "ptree.h": "c",
         "syscalls.h": "c",
-        "types.h": "c"
+        "types.h": "c",
+        "stdlib.h": "c"
     }
 }
