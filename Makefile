@@ -77,3 +77,6 @@ clean:
 	make -C ${OBJ2_DIR} clean
 	make -C ${OBJ3_DIR} clean
 	make -C ${BBC_DIR} clean
+
+handin:
+	tar -cvf Prj1+518030910211.tar .
