@@ -1,11 +1,11 @@
 build:
 	cd jni && ndk-build
 
-b:
+localbuild:
 	gcc jni/BurgerBuddies.c jni/sbuf.c jni/sem.c -o BBC_local -lpthread -g -std=gnu89 -Wall
 
-r: b
+localrun: localbuild
 	./BBC_local 2 4 41 10
 
 clean:
-	rm -rf libs obj
+	rm -rf libs obj BBC_local

@@ -20,16 +20,23 @@ DEST_OBJ3=${DEST_DIR}/${OBJ3_NAME}
 DEST_BBC=${DEST_DIR}/${BBC_NAME}
 
 
-nothing:
-	@echo "Hello!"
+all: help
+
+help:
+	@echo "To run the test:"
+	@echo "    1. Run 'make emulator' to start the emulator;"
+	@echo "    2. Run 'make testall' to run the test."
 
 emulator:
-	./run_emulator.sh
+	emulator -avd OsPrj-518030910211 -kernel ~/Android/kernel/goldfish/arch/arm/boot/zImage -no-window -show-kernel
+
+testall: clean run
 
 shell:
 	adb shell
 
 build:
+	@echo "\n\n\n>> Building..."
 	make -C ${MODULE_DIR}
 	make -C ${OBJ2_DIR}
 	make -C ${OBJ3_DIR}
@@ -37,8 +44,9 @@ build:
 
 
 upload:
-	adb shell rmmod ${DEST_MODULE}
-	adb shell rm ${DEST_MODULE}
+	@echo "\n\n\n>> Uploading..."
+	adb shell rmmod ${DEST_MODULE} > /dev/null
+	adb shell rm -f ${DEST_MODULE}
 	adb push ${MODULE} ${DEST_DIR}
 	adb push ${OBJ2} ${DEST_DIR}
 	adb push ${OBJ3} ${DEST_DIR}
@@ -47,8 +55,9 @@ upload:
 
 
 run: build upload
+	@echo "\n\n\n>> Running..."
+	@echo ">> Problem 1"
 	adb shell chmod +x ${DEST_OBJ2} ${DEST_OBJ3}
-	@echo "\n\n>> Problem 1"
 	adb shell insmod ${DEST_MODULE}
 	adb shell lsmod
 	@echo "\n\n>> Problem 2"
@@ -58,7 +67,7 @@ run: build upload
 	@echo "\n\n>> Problem 4"
 	adb shell ${DEST_BBC} 2 4 41 10
 	@echo "\n\n>> Cleaning..."
-	adb shell rmmod ${DEST_MODULE}
+	adb shell rmmod ${DEST_MODULE} 
 
 clean:
 	make -C ${MODULE_DIR} clean
