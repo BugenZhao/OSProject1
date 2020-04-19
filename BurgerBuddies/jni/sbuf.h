@@ -7,18 +7,16 @@
 
 #include "bugen_bbc.h"
 
-/* $begin sbuft */
+// A thread-safe FIFO buffer, inspired by CS:APP
 typedef struct {
-    int *buf;    /* Buffer array */
-    int n;       /* Maximum number of slots */
-    int front;   /* buf[(front+1)%n] is first item */
-    int rear;    /* buf[rear%n] is last item */
-    sem_t mutex; /* Protects accesses to buf */
-    sem_t slots; /* Counts available slots */
-    sem_t items; /* Counts available items */
+    int *buf;     // Buffer
+    int n;        // Max size
+    int front;    // Front pointer of circular queue
+    int rear;     // Rear pointer of circular queue
+    sem_t mutex;  // Semaphore for accessing
+    sem_t slots;  // Available slots
+    sem_t items;  // Used slots
 } sbuf_t;
-
-/* $end sbuft */
 
 void sbuf_init(sbuf_t *sp, int n);
 

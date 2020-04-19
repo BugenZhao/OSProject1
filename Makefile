@@ -1,4 +1,7 @@
-MODULE_DIR=./ptree
+AVD_NAME=OsPrj-518030910211
+KERNEL_ZIMG=~/Android/kernel/goldfish/arch/arm/boot/zImage
+
+MODULE_DIR=./ptree_syscall
 MODULE_NAME=ptree.ko
 OBJ2_DIR=./ptree_test
 OBJ2_NAME=ptree_test
@@ -28,7 +31,7 @@ help:
 	@echo "    2. Run 'make testall' to run the test."
 
 emulator:
-	emulator -avd OsPrj-518030910211 -kernel ~/Android/kernel/goldfish/arch/arm/boot/zImage -no-window -show-kernel
+	emulator -avd ${AVD_NAME} -kernel ${KERNEL_ZIMG} -no-window -show-kernel
 
 testall: clean run
 

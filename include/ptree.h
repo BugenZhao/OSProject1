@@ -2,6 +2,7 @@
 #define BUGEN_LINUX_PTREE_H
 
 #ifdef __KERNEL__
+// Are we in kernel?
 #include <linux/sched.h>
 #include <linux/types.h>
 #else

@@ -2,6 +2,7 @@
 #define BUGEN_SEM_H
 
 #include <semaphore.h>
+// See `sem.c` for comments
 
 void Sem_init(sem_t *sem, unsigned int value);
 
