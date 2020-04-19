@@ -1,0 +1,402 @@
+make -C ./ptree_syscall clean
+make[1]: Entering directory '/home/bugenzhao/OSProjects/OSProject1/ptree_syscall'
+rm -rf *.ko *.o *.mod.c *.order *.symvers .*.ko.cmd .*.mod.o.cmd .*.o.cmd .tmp_versions
+make[1]: Leaving directory '/home/bugenzhao/OSProjects/OSProject1/ptree_syscall'
+make -C ./ptree_test clean
+make[1]: Entering directory '/home/bugenzhao/OSProjects/OSProject1/ptree_test'
+rm -rf libs obj
+make[1]: Leaving directory '/home/bugenzhao/OSProjects/OSProject1/ptree_test'
+make -C ./ptree_prtchld clean
+make[1]: Entering directory '/home/bugenzhao/OSProjects/OSProject1/ptree_prtchld'
+rm -rf libs obj
+make[1]: Leaving directory '/home/bugenzhao/OSProjects/OSProject1/ptree_prtchld'
+make -C ./BurgerBuddies clean
+make[1]: Entering directory '/home/bugenzhao/OSProjects/OSProject1/BurgerBuddies'
+rm -rf libs obj BBC_local
+make[1]: Leaving directory '/home/bugenzhao/OSProjects/OSProject1/BurgerBuddies'
+
+
+
+>> Building...
+make -C ./ptree_syscall
+make[1]: Entering directory '/home/bugenzhao/OSProjects/OSProject1/ptree_syscall'
+make -C ~/Android/kernel/goldfish ARCH=arm CROSS_COMPILE=/home/bugenzhao/Android/android-ndk-linux/toolchains/arm-linux-androideabi-4.9/prebuilt/linux-x86_64/bin/arm-linux-androideabi- M=/home/bugenzhao/OSProjects/OSProject1/ptree_syscall modules
+make[2]: Entering directory '/home/bugenzhao/Android/kernel/goldfish'
+  CC [M]  /home/bugenzhao/OSProjects/OSProject1/ptree_syscall/ptree.o
+  Building modules, stage 2.
+  MODPOST 1 modules
+  CC      /home/bugenzhao/OSProjects/OSProject1/ptree_syscall/ptree.mod.o
+  LD [M]  /home/bugenzhao/OSProjects/OSProject1/ptree_syscall/ptree.ko
+make[2]: Leaving directory '/home/bugenzhao/Android/kernel/goldfish'
+make[1]: Leaving directory '/home/bugenzhao/OSProjects/OSProject1/ptree_syscall'
+make -C ./ptree_test
+make[1]: Entering directory '/home/bugenzhao/OSProjects/OSProject1/ptree_test'
+cd jni && ndk-build
+make[2]: Entering directory '/home/bugenzhao/OSProjects/OSProject1/ptree_test/jni'
+[armeabi] Compile thumb  : ptree_test <= ptree_test.c
+[armeabi] Executable     : ptree_test
+[armeabi] Install        : ptree_test => libs/armeabi/ptree_test
+make[2]: Leaving directory '/home/bugenzhao/OSProjects/OSProject1/ptree_test/jni'
+make[1]: Leaving directory '/home/bugenzhao/OSProjects/OSProject1/ptree_test'
+make -C ./ptree_prtchld
+make[1]: Entering directory '/home/bugenzhao/OSProjects/OSProject1/ptree_prtchld'
+cd jni && ndk-build
+make[2]: Entering directory '/home/bugenzhao/OSProjects/OSProject1/ptree_prtchld/jni'
+[armeabi] Compile thumb  : ptree_prtchld <= ptree_prtchld.c
+[armeabi] Executable     : ptree_prtchld
+[armeabi] Install        : ptree_prtchld => libs/armeabi/ptree_prtchld
+make[2]: Leaving directory '/home/bugenzhao/OSProjects/OSProject1/ptree_prtchld/jni'
+make[1]: Leaving directory '/home/bugenzhao/OSProjects/OSProject1/ptree_prtchld'
+make -C ./BurgerBuddies
+make[1]: Entering directory '/home/bugenzhao/OSProjects/OSProject1/BurgerBuddies'
+cd jni && ndk-build
+make[2]: Entering directory '/home/bugenzhao/OSProjects/OSProject1/BurgerBuddies/jni'
+[armeabi] Compile thumb  : BBC <= BurgerBuddies.c
+[armeabi] Compile thumb  : BBC <= sbuf.c
+[armeabi] Compile thumb  : BBC <= sem.c
+[armeabi] Executable     : BBC
+[armeabi] Install        : BBC => libs/armeabi/BBC
+make[2]: Leaving directory '/home/bugenzhao/OSProjects/OSProject1/BurgerBuddies/jni'
+make[1]: Leaving directory '/home/bugenzhao/OSProjects/OSProject1/BurgerBuddies'
+
+
+
+>> Uploading...
+adb shell rmmod /data/misc/ptree.ko > /dev/null
+adb shell rm -f /data/misc/ptree.ko
+adb push ./ptree_syscall/ptree.ko /data/misc
+adb push ./ptree_test/libs/armeabi/ptree_test /data/misc
+adb push ./ptree_prtchld/libs/armeabi/ptree_prtchld /data/misc
+adb push ./BurgerBuddies/libs/armeabi/BBC /data/misc
+
+
+
+>> Running...
+>> Problem 1
+adb shell chmod +x /data/misc/ptree_test /data/misc/ptree_prtchld
+adb shell insmod /data/misc/ptree.ko
+adb shell lsmod
+Module                  Size  Used by
+ptree                   1403  0 
+
+
+>> Problem 2
+adb shell /data/misc/ptree_test
+nr=66
+swapper         ,0,0,0,1,0,0
+	init            ,1,1,0,45,2,0
+		ueventd         ,45,1,1,0,61,0
+		logd            ,61,1,1,0,62,1036
+		vold            ,62,1,1,0,70,0
+		healthd         ,70,1,1,0,71,0
+		lmkd            ,71,1,1,0,72,0
+		servicemanager  ,72,1,1,0,73,1000
+		surfaceflinger  ,73,1,1,0,75,1000
+		qemud           ,75,1,1,0,79,0
+		sh              ,79,1,1,0,80,2000
+		adbd            ,80,1,1,1660,81,0
+			ptree_test      ,1660,0,80,0,1,0
+		netd            ,81,1,1,0,83,0
+		rild            ,83,1,1,0,84,1001
+		drmserver       ,84,1,1,0,85,1019
+		mediaserver     ,85,1,1,0,86,1013
+		installd        ,86,1,1,0,87,0
+		keystore        ,87,1,1,0,88,1017
+		main            ,88,1,1,305,89,0
+			system_server   ,305,1,88,0,835,1000
+			putmethod.latin ,835,1,88,0,844,10032
+			m.android.phone ,844,1,88,0,856,1001
+			droid.launcher3 ,856,1,88,0,881,10007
+			d.process.acore ,881,1,88,0,943,10002
+			d.process.media ,943,1,88,0,962,10005
+			ndroid.systemui ,962,1,88,0,1070,10013
+			droid.deskclock ,1070,1,88,0,1084,10023
+			.quicksearchbox ,1084,1,88,0,1099,10042
+			ndroid.settings ,1099,1,88,0,1113,1000
+			ndroid.calendar ,1113,1,88,0,1132,10019
+			viders.calendar ,1132,1,88,0,1214,10001
+			m.android.email ,1214,1,88,0,1230,10027
+			ndroid.exchange ,1230,1,88,0,1,10029
+		gatekeeperd     ,89,1,1,0,90,1000
+		perfprofd       ,90,1,1,0,91,0
+		fingerprintd    ,91,1,1,0,673,1000
+		debuggerd       ,673,1,1,0,1,0
+	kthreadd        ,2,1,0,3,0,0
+		ksoftirqd/0     ,3,1,2,0,6,0
+		khelper         ,6,1,2,0,7,0
+		sync_supers     ,7,1,2,0,8,0
+		bdi-default     ,8,1,2,0,9,0
+		kblockd         ,9,1,2,0,10,0
+		rpciod          ,10,1,2,0,11,0
+		kworker/0:1     ,11,1,2,0,12,0
+		kswapd0         ,12,1,2,0,13,0
+		fsnotify_mark   ,13,1,2,0,14,0
+		crypto          ,14,1,2,0,25,0
+		kworker/u:1     ,25,1,2,0,30,0
+		mtdblock0       ,30,1,2,0,35,0
+		mtdblock1       ,35,1,2,0,40,0
+		mtdblock2       ,40,1,2,0,41,0
+		binder          ,41,1,2,0,42,0
+		deferwq         ,42,1,2,0,43,0
+		kworker/u:2     ,43,1,2,0,44,0
+		mmcqd/0         ,44,1,2,0,47,0
+		jbd2/mtdblock0- ,47,1,2,0,48,0
+		ext4-dio-unwrit ,48,1,2,0,53,0
+		jbd2/mtdblock1- ,53,1,2,0,54,0
+		ext4-dio-unwrit ,54,1,2,0,59,0
+		jbd2/mtdblock2- ,59,1,2,0,60,0
+		ext4-dio-unwrit ,60,1,2,0,68,0
+		kauditd         ,68,1,2,0,136,0
+		kworker/0:2     ,136,1,2,0,1628,0
+		flush-31:1      ,1628,1,2,0,0,0
+
+
+>> Problem 3
+adb shell "cd /data/misc && ./ptree_prtchld"
+518030910211 Parent is 1664
+518030910211 Child is  1665
+nr=68
+swapper         ,0,0,0,1,0,0
+	init            ,1,1,0,45,2,0
+		ueventd         ,45,1,1,0,61,0
+		logd            ,61,1,1,0,62,1036
+		vold            ,62,1,1,0,70,0
+		healthd         ,70,1,1,0,71,0
+		lmkd            ,71,1,1,0,72,0
+		servicemanager  ,72,1,1,0,73,1000
+		surfaceflinger  ,73,1,1,0,75,1000
+		qemud           ,75,1,1,0,79,0
+		sh              ,79,1,1,0,80,2000
+		adbd            ,80,1,1,1662,81,0
+			sh              ,1662,1,80,1664,1,0
+				ptree_prtchld   ,1664,1,1662,1665,1,0
+					ptree_test      ,1665,0,1664,0,1,0
+		netd            ,81,1,1,0,83,0
+		rild            ,83,1,1,0,84,1001
+		drmserver       ,84,1,1,0,85,1019
+		mediaserver     ,85,1,1,0,86,1013
+		installd        ,86,1,1,0,87,0
+		keystore        ,87,1,1,0,88,1017
+		main            ,88,1,1,305,89,0
+			system_server   ,305,1,88,0,835,1000
+			putmethod.latin ,835,1,88,0,844,10032
+			m.android.phone ,844,1,88,0,856,1001
+			droid.launcher3 ,856,1,88,0,881,10007
+			d.process.acore ,881,1,88,0,943,10002
+			d.process.media ,943,1,88,0,962,10005
+			ndroid.systemui ,962,1,88,0,1070,10013
+			droid.deskclock ,1070,1,88,0,1084,10023
+			.quicksearchbox ,1084,1,88,0,1099,10042
+			ndroid.settings ,1099,1,88,0,1113,1000
+			ndroid.calendar ,1113,1,88,0,1132,10019
+			viders.calendar ,1132,1,88,0,1214,10001
+			m.android.email ,1214,1,88,0,1230,10027
+			ndroid.exchange ,1230,1,88,0,1,10029
+		gatekeeperd     ,89,1,1,0,90,1000
+		perfprofd       ,90,1,1,0,91,0
+		fingerprintd    ,91,1,1,0,673,1000
+		debuggerd       ,673,1,1,0,1,0
+	kthreadd        ,2,1,0,3,0,0
+		ksoftirqd/0     ,3,1,2,0,6,0
+		khelper         ,6,1,2,0,7,0
+		sync_supers     ,7,1,2,0,8,0
+		bdi-default     ,8,1,2,0,9,0
+		kblockd         ,9,1,2,0,10,0
+		rpciod          ,10,1,2,0,11,0
+		kworker/0:1     ,11,1,2,0,12,0
+		kswapd0         ,12,1,2,0,13,0
+		fsnotify_mark   ,13,1,2,0,14,0
+		crypto          ,14,1,2,0,25,0
+		kworker/u:1     ,25,1,2,0,30,0
+		mtdblock0       ,30,1,2,0,35,0
+		mtdblock1       ,35,1,2,0,40,0
+		mtdblock2       ,40,1,2,0,41,0
+		binder          ,41,1,2,0,42,0
+		deferwq         ,42,1,2,0,43,0
+		kworker/u:2     ,43,1,2,0,44,0
+		mmcqd/0         ,44,1,2,0,47,0
+		jbd2/mtdblock0- ,47,1,2,0,48,0
+		ext4-dio-unwrit ,48,1,2,0,53,0
+		jbd2/mtdblock1- ,53,1,2,0,54,0
+		ext4-dio-unwrit ,54,1,2,0,59,0
+		jbd2/mtdblock2- ,59,1,2,0,60,0
+		ext4-dio-unwrit ,60,1,2,0,68,0
+		kauditd         ,68,1,2,0,136,0
+		kworker/0:2     ,136,1,2,0,1628,0
+		flush-31:1      ,1628,1,2,0,0,0
+
+
+>> Problem 4
+adb shell /data/misc/BBC 2 4 41 10
+Welcome to Bugen's Burger Buddies!
+Cooks [2], Cashiers [4], Customers [41]
+
+Cook [1] makes a burger.
+Cook [2] makes a burger.
+Cook [1] makes a burger.
+Customer [28] comes.
+Casher [2] accepts an order from Customer [28].
+Casher [2] takes a burger form Cook [1] to Customer [28].
+Customer [2] comes.
+Casher [2] accepts an order from Customer [2].
+Casher [2] takes a burger form Cook [2] to Customer [2].
+Customer [9] comes.
+Casher [2] accepts an order from Customer [9].
+Casher [2] takes a burger form Cook [1] to Customer [9].
+Cook [2] makes a burger.
+Customer [29] comes.
+Casher [2] accepts an order from Customer [29].
+Casher [2] takes a burger form Cook [2] to Customer [29].
+Customer [40] comes.
+Casher [2] accepts an order from Customer [40].
+Cook [2] makes a burger.
+Casher [2] takes a burger form Cook [2] to Customer [40].
+Customer [39] comes.
+Casher [1] accepts an order from Customer [39].
+Cook [1] makes a burger.
+Casher [1] takes a burger form Cook [1] to Customer [39].
+Cook [2] makes a burger.
+Customer [20] comes.
+Casher [3] accepts an order from Customer [20].
+Casher [3] takes a burger form Cook [2] to Customer [20].
+Cook [2] makes a burger.
+Cook [1] makes a burger.
+Customer [35] comes.
+Casher [3] accepts an order from Customer [35].
+Casher [3] takes a burger form Cook [2] to Customer [35].
+Customer [24] comes.
+Casher [3] accepts an order from Customer [24].
+Casher [3] takes a burger form Cook [1] to Customer [24].
+Customer [26] comes.
+Casher [3] accepts an order from Customer [26].
+Cook [2] makes a burger.
+Casher [3] takes a burger form Cook [2] to Customer [26].
+Customer [41] comes.
+Casher [4] accepts an order from Customer [41].
+Customer [16] comes.
+Customer [18] comes.
+Casher [2] accepts an order from Customer [16].
+Casher [1] accepts an order from Customer [18].
+Customer [25] comes.
+Casher [3] accepts an order from Customer [25].
+Cook [1] makes a burger.
+Casher [4] takes a burger form Cook [1] to Customer [41].
+Cook [2] makes a burger.
+Casher [2] takes a burger form Cook [2] to Customer [16].
+Customer [1] comes.
+Casher [4] accepts an order from Customer [1].
+Customer [11] comes.
+Casher [2] accepts an order from Customer [11].
+Cook [1] makes a burger.
+Casher [1] takes a burger form Cook [1] to Customer [18].
+Customer [15] comes.
+Casher [1] accepts an order from Customer [15].
+Cook [2] makes a burger.
+Casher [3] takes a burger form Cook [2] to Customer [25].
+Customer [32] comes.
+Casher [3] accepts an order from Customer [32].
+Customer [22] comes.
+Cook [1] makes a burger.
+Casher [4] takes a burger form Cook [1] to Customer [1].
+Casher [4] accepts an order from Customer [22].
+Customer [3] comes.
+Cook [2] makes a burger.
+Casher [4] takes a burger form Cook [2] to Customer [22].
+Casher [4] accepts an order from Customer [3].
+Customer [36] comes.
+Customer [4] comes.
+Cook [2] makes a burger.
+Casher [4] takes a burger form Cook [2] to Customer [3].
+Casher [4] accepts an order from Customer [36].
+Cook [1] makes a burger.
+Casher [4] takes a burger form Cook [1] to Customer [36].
+Casher [4] accepts an order from Customer [4].
+Customer [6] comes.
+Customer [14] comes.
+Customer [13] comes.
+Customer [30] comes.
+Cook [2] makes a burger.
+Casher [4] takes a burger form Cook [2] to Customer [4].
+Casher [4] accepts an order from Customer [6].
+Cook [1] makes a burger.
+Customer [31] comes.
+Casher [4] takes a burger form Cook [1] to Customer [6].
+Casher [4] accepts an order from Customer [14].
+Customer [33] comes.
+Cook [2] makes a burger.
+Casher [4] takes a burger form Cook [2] to Customer [14].
+Casher [4] accepts an order from Customer [13].
+Customer [23] comes.
+Cook [2] makes a burger.
+Casher [4] takes a burger form Cook [2] to Customer [13].
+Casher [4] accepts an order from Customer [30].
+Customer [27] comes.
+Cook [1] makes a burger.
+Casher [4] takes a burger form Cook [1] to Customer [30].
+Casher [4] accepts an order from Customer [31].
+Customer [7] comes.
+Cook [2] makes a burger.
+Casher [4] takes a burger form Cook [2] to Customer [31].
+Casher [4] accepts an order from Customer [33].
+Customer [19] comes.
+Cook [1] makes a burger.
+Casher [4] takes a burger form Cook [1] to Customer [33].
+Casher [4] accepts an order from Customer [23].
+Customer [17] comes.
+Cook [2] makes a burger.
+Casher [4] takes a burger form Cook [2] to Customer [23].
+Casher [4] accepts an order from Customer [27].
+Customer [37] comes.
+Cook [2] makes a burger.
+Casher [4] takes a burger form Cook [2] to Customer [27].
+Casher [4] accepts an order from Customer [7].
+Customer [34] comes.
+Cook [2] makes a burger.
+Casher [4] takes a burger form Cook [2] to Customer [7].
+Casher [4] accepts an order from Customer [19].
+Customer [21] comes.
+Cook [1] makes a burger.
+Casher [4] takes a burger form Cook [1] to Customer [19].
+Casher [4] accepts an order from Customer [17].
+Customer [8] comes.
+Cook [2] makes a burger.
+Casher [4] takes a burger form Cook [2] to Customer [17].
+Casher [4] accepts an order from Customer [37].
+Customer [12] comes.
+Cook [1] makes a burger.
+Casher [4] takes a burger form Cook [1] to Customer [37].
+Casher [4] accepts an order from Customer [34].
+Customer [5] comes.
+Cook [1] makes a burger.
+Casher [4] takes a burger form Cook [1] to Customer [34].
+Casher [4] accepts an order from Customer [21].
+Customer [10] comes.
+Cook [2] makes a burger.
+Casher [4] takes a burger form Cook [2] to Customer [21].
+Casher [4] accepts an order from Customer [8].
+Customer [38] comes.
+Cook [2] makes a burger.
+Casher [4] takes a burger form Cook [2] to Customer [8].
+Casher [4] accepts an order from Customer [12].
+Cook [1] makes a burger.
+Casher [4] takes a burger form Cook [1] to Customer [12].
+Casher [4] accepts an order from Customer [5].
+Cook [2] makes a burger.
+Casher [4] takes a burger form Cook [2] to Customer [5].
+Casher [4] accepts an order from Customer [10].
+Cook [2] makes a burger.
+Casher [4] takes a burger form Cook [2] to Customer [10].
+Casher [4] accepts an order from Customer [38].
+Cook [1] makes a burger.
+Casher [4] takes a burger form Cook [1] to Customer [38].
+Cook [2] makes a burger.
+Casher [2] takes a burger form Cook [2] to Customer [11].
+Cook [2] makes a burger.
+Casher [1] takes a burger form Cook [2] to Customer [15].
+Cook [1] makes a burger.
+Casher [3] takes a burger form Cook [1] to Customer [32].
+All customers are served! Done.
+
+
+>> Cleaning...
+adb shell rmmod /data/misc/ptree.ko 
