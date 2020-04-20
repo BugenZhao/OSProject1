@@ -15,7 +15,7 @@ sem_t customer_sem;
 // A lock for printf
 sem_t printf_sem;
 
-// Two FIFO buffers, which store the numbers of instances
+// Two FIFO buffers, which store the # of instances
 sbuf_t customers;
 sbuf_t burgers;
 
@@ -118,7 +118,10 @@ int main(int argc, char** argv) {
 
     // Create threads
     for (i = 0; i < cu; i++) {
-        para = malloc(sizeof(int));  // Allocate space for argument (#)
+        // Allocate space for argument (#)
+        // `free()` is not needed,
+        //  since we will do this for just (cu+co+ca) -> very limited times
+        para = malloc(sizeof(int));
         *para = i + 1;
         pthread_create(&tid, NULL, customer, para);
     }

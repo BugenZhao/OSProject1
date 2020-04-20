@@ -10,8 +10,6 @@
 #define TASK_COMM_LEN 16
 #endif
 
-#define MAX_PRO_CNT 1 << 10
-
 struct prinfo {
     pid_t parent_pid;         /* process id of parent, 0 if none */
     pid_t pid;                /* process id */
