@@ -82,8 +82,10 @@ ptree                   1999  0
 
 >> Problem 2
 adb shell /data/misc/ptree_test
-nr      =71
-returned=71
+TEST PASSED
+nr (copied)    = 66
+ret(traversed) = 66
+
 swapper         ,0,0,0,1,0,0
 	init            ,1,1,0,45,2,0
 		ueventd         ,45,1,1,0,62,0
@@ -95,8 +97,8 @@ swapper         ,0,0,0,1,0,0
 		surfaceflinger  ,70,1,1,0,72,1000
 		qemud           ,72,1,1,0,79,0
 		sh              ,79,1,1,0,80,2000
-		adbd            ,80,1,1,1668,81,0
-			ptree_test      ,1668,0,80,0,1,0
+		adbd            ,80,1,1,2165,81,0
+			ptree_test      ,2165,0,80,0,1,0
 		netd            ,81,1,1,0,82,0
 		debuggerd       ,82,1,1,0,83,0
 		rild            ,83,1,1,0,84,1001
@@ -106,21 +108,16 @@ swapper         ,0,0,0,1,0,0
 		keystore        ,87,1,1,0,88,1017
 		main            ,88,1,1,303,92,0
 			system_server   ,303,1,88,0,528,1000
-			ndroid.systemui ,528,1,88,0,557,10013
-			externalstorage ,557,1,88,0,726,10006
+			ndroid.systemui ,528,1,88,0,726,10013
 			d.process.acore ,726,1,88,0,759,10002
 			putmethod.latin ,759,1,88,0,765,10032
 			m.android.phone ,765,1,88,0,782,1001
-			droid.launcher3 ,782,1,88,0,893,10007
-			id.printspooler ,893,1,88,0,1069,10040
+			droid.launcher3 ,782,1,88,0,1069,10007
 			ndroid.settings ,1069,1,88,0,1083,1000
 			ndroid.calendar ,1083,1,88,0,1102,10019
 			droid.deskclock ,1102,1,88,0,1107,10023
-			viders.calendar ,1107,1,88,0,1138,10001
-			.android.dialer ,1138,1,88,0,1153,10004
-			ndroid.keychain ,1153,1,88,0,1167,1000
-			d.process.media ,1167,1,88,0,1193,10005
-			gedprovisioning ,1193,1,88,0,1217,10008
+			viders.calendar ,1107,1,88,0,1167,10001
+			d.process.media ,1167,1,88,0,1217,10005
 			m.android.email ,1217,1,88,0,1232,10027
 			ndroid.exchange ,1232,1,88,0,1253,10029
 			.quicksearchbox ,1253,1,88,0,1,10042
@@ -147,22 +144,24 @@ swapper         ,0,0,0,1,0,0
 		kworker/u:2     ,43,1,2,0,44,0
 		mmcqd/0         ,44,1,2,0,47,0
 		jbd2/mtdblock0- ,47,1,2,0,48,0
-		ext4-dio-unwrit ,48,1,2,0,51,0
-		flush-31:1      ,51,1,2,0,53,0
+		ext4-dio-unwrit ,48,1,2,0,53,0
 		kworker/0:2     ,53,1,2,0,54,0
 		jbd2/mtdblock1- ,54,1,2,0,55,0
 		ext4-dio-unwrit ,55,1,2,0,60,0
 		jbd2/mtdblock2- ,60,1,2,0,61,0
 		ext4-dio-unwrit ,61,1,2,0,76,0
-		kauditd         ,76,1,2,0,0,0
+		kauditd         ,76,1,2,0,2150,0
+		flush-31:1      ,2150,1,2,0,0,0
 
 
 >> Problem 3
 adb shell "cd /data/misc && ./ptree_prtchld"
-518030910211 Parent is 1672
-518030910211 Child is  1673
-nr      =73
-returned=73
+518030910211 Parent is 2169
+518030910211 Child is  2170
+TEST PASSED
+nr (copied)    = 68
+ret(traversed) = 68
+
 swapper         ,0,0,0,1,0,0
 	init            ,1,1,0,45,2,0
 		ueventd         ,45,1,1,0,62,0
@@ -174,10 +173,10 @@ swapper         ,0,0,0,1,0,0
 		surfaceflinger  ,70,1,1,0,72,1000
 		qemud           ,72,1,1,0,79,0
 		sh              ,79,1,1,0,80,2000
-		adbd            ,80,1,1,1670,81,0
-			sh              ,1670,1,80,1672,1,0
-				ptree_prtchld   ,1672,1,1670,1673,1,0
-					ptree_test      ,1673,0,1672,0,1,0
+		adbd            ,80,1,1,2167,81,0
+			sh              ,2167,1,80,2169,1,0
+				ptree_prtchld   ,2169,1,2167,2170,1,0
+					ptree_test      ,2170,0,2169,0,1,0
 		netd            ,81,1,1,0,82,0
 		debuggerd       ,82,1,1,0,83,0
 		rild            ,83,1,1,0,84,1001
@@ -187,21 +186,16 @@ swapper         ,0,0,0,1,0,0
 		keystore        ,87,1,1,0,88,1017
 		main            ,88,1,1,303,92,0
 			system_server   ,303,1,88,0,528,1000
-			ndroid.systemui ,528,1,88,0,557,10013
-			externalstorage ,557,1,88,0,726,10006
+			ndroid.systemui ,528,1,88,0,726,10013
 			d.process.acore ,726,1,88,0,759,10002
 			putmethod.latin ,759,1,88,0,765,10032
 			m.android.phone ,765,1,88,0,782,1001
-			droid.launcher3 ,782,1,88,0,893,10007
-			id.printspooler ,893,1,88,0,1069,10040
+			droid.launcher3 ,782,1,88,0,1069,10007
 			ndroid.settings ,1069,1,88,0,1083,1000
 			ndroid.calendar ,1083,1,88,0,1102,10019
 			droid.deskclock ,1102,1,88,0,1107,10023
-			viders.calendar ,1107,1,88,0,1138,10001
-			.android.dialer ,1138,1,88,0,1153,10004
-			ndroid.keychain ,1153,1,88,0,1167,1000
-			d.process.media ,1167,1,88,0,1193,10005
-			gedprovisioning ,1193,1,88,0,1217,10008
+			viders.calendar ,1107,1,88,0,1167,10001
+			d.process.media ,1167,1,88,0,1217,10005
 			m.android.email ,1217,1,88,0,1232,10027
 			ndroid.exchange ,1232,1,88,0,1253,10029
 			.quicksearchbox ,1253,1,88,0,1,10042
@@ -228,14 +222,14 @@ swapper         ,0,0,0,1,0,0
 		kworker/u:2     ,43,1,2,0,44,0
 		mmcqd/0         ,44,1,2,0,47,0
 		jbd2/mtdblock0- ,47,1,2,0,48,0
-		ext4-dio-unwrit ,48,1,2,0,51,0
-		flush-31:1      ,51,1,2,0,53,0
+		ext4-dio-unwrit ,48,1,2,0,53,0
 		kworker/0:2     ,53,1,2,0,54,0
 		jbd2/mtdblock1- ,54,1,2,0,55,0
 		ext4-dio-unwrit ,55,1,2,0,60,0
 		jbd2/mtdblock2- ,60,1,2,0,61,0
 		ext4-dio-unwrit ,61,1,2,0,76,0
-		kauditd         ,76,1,2,0,0,0
+		kauditd         ,76,1,2,0,2150,0
+		flush-31:1      ,2150,1,2,0,0,0
 
 
 >> Problem 4
@@ -243,170 +237,170 @@ adb shell /data/misc/BBC 2 4 41 10
 Welcome to Bugen's Burger Buddies!
 Cooks [2], Cashiers [4], Customers [41]
 
+Cook [2] makes a burger.
 Cook [1] makes a burger.
 Cook [2] makes a burger.
 Cook [1] makes a burger.
+Customer [31] comes.
+Casher [3] accepts an order from Customer [31].
+Casher [3] takes a burger form Cook [2] to Customer [31].
+Cook [1] makes a burger.
+Customer [23] comes.
+Casher [3] accepts an order from Customer [23].
+Casher [3] takes a burger form Cook [1] to Customer [23].
+Cook [2] makes a burger.
+Customer [15] comes.
+Casher [3] accepts an order from Customer [15].
+Casher [3] takes a burger form Cook [2] to Customer [15].
+Customer [7] comes.
+Casher [3] accepts an order from Customer [7].
+Casher [3] takes a burger form Cook [1] to Customer [7].
+Cook [1] makes a burger.
+Cook [2] makes a burger.
+Customer [11] comes.
+Casher [3] accepts an order from Customer [11].
+Casher [3] takes a burger form Cook [1] to Customer [11].
+Customer [36] comes.
+Casher [3] accepts an order from Customer [36].
+Casher [3] takes a burger form Cook [2] to Customer [36].
+Cook [1] makes a burger.
+Customer [25] comes.
+Casher [3] accepts an order from Customer [25].
+Casher [3] takes a burger form Cook [1] to Customer [25].
+Customer [18] comes.
+Casher [3] accepts an order from Customer [18].
+Casher [3] takes a burger form Cook [2] to Customer [18].
 Customer [26] comes.
-Casher [1] accepts an order from Customer [26].
-Casher [1] takes a burger form Cook [1] to Customer [26].
-Customer [17] comes.
-Casher [1] accepts an order from Customer [17].
-Casher [1] takes a burger form Cook [2] to Customer [17].
-Customer [13] comes.
-Casher [1] accepts an order from Customer [13].
-Casher [1] takes a burger form Cook [1] to Customer [13].
-Customer [30] comes.
-Casher [1] accepts an order from Customer [30].
-Customer [22] comes.
-Casher [2] accepts an order from Customer [22].
+Casher [3] accepts an order from Customer [26].
+Casher [3] takes a burger form Cook [1] to Customer [26].
 Cook [2] makes a burger.
-Casher [1] takes a burger form Cook [2] to Customer [30].
+Cook [2] makes a burger.
+Customer [24] comes.
+Casher [3] accepts an order from Customer [24].
+Casher [3] takes a burger form Cook [2] to Customer [24].
 Cook [1] makes a burger.
-Casher [2] takes a burger form Cook [1] to Customer [22].
-Cook [2] makes a burger.
-Customer [37] comes.
-Casher [3] accepts an order from Customer [37].
-Casher [3] takes a burger form Cook [2] to Customer [37].
-Customer [38] comes.
-Casher [3] accepts an order from Customer [38].
-Customer [27] comes.
-Casher [4] accepts an order from Customer [27].
-Customer [3] comes.
-Casher [1] accepts an order from Customer [3].
-Cook [2] makes a burger.
-Casher [3] takes a burger form Cook [2] to Customer [38].
+Customer [35] comes.
+Casher [3] accepts an order from Customer [35].
+Casher [3] takes a burger form Cook [2] to Customer [35].
 Cook [1] makes a burger.
-Casher [4] takes a burger form Cook [1] to Customer [27].
-Customer [34] comes.
-Casher [2] accepts an order from Customer [34].
-Customer [21] comes.
-Casher [3] accepts an order from Customer [21].
-Cook [2] makes a burger.
-Casher [1] takes a burger form Cook [2] to Customer [3].
+Customer [39] comes.
+Casher [3] accepts an order from Customer [39].
+Casher [3] takes a burger form Cook [1] to Customer [39].
+Customer [4] comes.
+Casher [3] accepts an order from Customer [4].
+Casher [3] takes a burger form Cook [1] to Customer [4].
 Customer [16] comes.
-Casher [4] accepts an order from Customer [16].
+Casher [3] accepts an order from Customer [16].
 Cook [1] makes a burger.
-Casher [2] takes a burger form Cook [1] to Customer [34].
-Customer [5] comes.
-Casher [1] accepts an order from Customer [5].
+Casher [3] takes a burger form Cook [1] to Customer [16].
+Cook [2] makes a burger.
+Customer [29] comes.
+Casher [2] accepts an order from Customer [29].
+Casher [2] takes a burger form Cook [2] to Customer [29].
+Customer [41] comes.
+Casher [2] accepts an order from Customer [41].
+Customer [34] comes.
+Casher [4] accepts an order from Customer [34].
+Cook [1] makes a burger.
+Casher [2] takes a burger form Cook [1] to Customer [41].
+Customer [28] comes.
+Casher [1] accepts an order from Customer [28].
+Customer [32] comes.
+Casher [3] accepts an order from Customer [32].
 Customer [33] comes.
 Casher [2] accepts an order from Customer [33].
-Customer [29] comes.
-Customer [11] comes.
-Customer [20] comes.
-Customer [12] comes.
-Cook [1] makes a burger.
-Casher [3] takes a burger form Cook [1] to Customer [21].
-Casher [3] accepts an order from Customer [29].
-Customer [31] comes.
 Cook [2] makes a burger.
-Casher [3] takes a burger form Cook [2] to Customer [29].
-Casher [3] accepts an order from Customer [11].
-Customer [7] comes.
+Casher [4] takes a burger form Cook [2] to Customer [34].
+Customer [40] comes.
+Casher [4] accepts an order from Customer [40].
 Cook [1] makes a burger.
-Casher [3] takes a burger form Cook [1] to Customer [11].
-Casher [3] accepts an order from Customer [20].
-Customer [28] comes.
+Casher [1] takes a burger form Cook [1] to Customer [28].
 Cook [2] makes a burger.
-Casher [3] takes a burger form Cook [2] to Customer [20].
-Casher [3] accepts an order from Customer [12].
-Customer [6] comes.
-Cook [2] makes a burger.
-Casher [3] takes a burger form Cook [2] to Customer [12].
-Casher [3] accepts an order from Customer [31].
-Cook [2] makes a burger.
-Casher [3] takes a burger form Cook [2] to Customer [31].
-Casher [3] accepts an order from Customer [7].
-Customer [32] comes.
-Customer [14] comes.
+Casher [3] takes a burger form Cook [2] to Customer [32].
+Customer [30] comes.
+Casher [1] accepts an order from Customer [30].
 Cook [1] makes a burger.
-Casher [3] takes a burger form Cook [1] to Customer [7].
-Casher [3] accepts an order from Customer [28].
-Customer [8] comes.
-Cook [1] makes a burger.
-Casher [3] takes a burger form Cook [1] to Customer [28].
-Casher [3] accepts an order from Customer [6].
-Customer [15] comes.
-Cook [1] makes a burger.
-Casher [3] takes a burger form Cook [1] to Customer [6].
-Casher [3] accepts an order from Customer [32].
-Customer [35] comes.
-Cook [1] makes a burger.
-Casher [3] takes a burger form Cook [1] to Customer [32].
-Casher [3] accepts an order from Customer [14].
-Cook [2] makes a burger.
-Casher [3] takes a burger form Cook [2] to Customer [14].
-Casher [3] accepts an order from Customer [8].
-Customer [36] comes.
-Customer [23] comes.
-Cook [2] makes a burger.
-Casher [3] takes a burger form Cook [2] to Customer [8].
-Casher [3] accepts an order from Customer [15].
+Casher [2] takes a burger form Cook [1] to Customer [33].
+Customer [3] comes.
+Casher [3] accepts an order from Customer [3].
+Customer [17] comes.
+Casher [2] accepts an order from Customer [17].
+Customer [2] comes.
 Customer [19] comes.
-Cook [1] makes a burger.
-Casher [3] takes a burger form Cook [1] to Customer [15].
-Casher [3] accepts an order from Customer [35].
-Customer [1] comes.
-Cook [1] makes a burger.
-Casher [3] takes a burger form Cook [1] to Customer [35].
-Casher [3] accepts an order from Customer [36].
-Cook [2] makes a burger.
-Casher [3] takes a burger form Cook [2] to Customer [36].
-Casher [3] accepts an order from Customer [23].
-Cook [2] makes a burger.
-Casher [3] takes a burger form Cook [2] to Customer [23].
-Casher [3] accepts an order from Customer [19].
-Customer [41] comes.
-Customer [10] comes.
-Customer [18] comes.
-Cook [2] makes a burger.
-Casher [3] takes a burger form Cook [2] to Customer [19].
-Casher [3] accepts an order from Customer [1].
-Cook [1] makes a burger.
-Casher [3] takes a burger form Cook [1] to Customer [1].
-Casher [3] accepts an order from Customer [41].
-Cook [1] makes a burger.
-Casher [3] takes a burger form Cook [1] to Customer [41].
-Casher [3] accepts an order from Customer [10].
-Customer [4] comes.
-Cook [2] makes a burger.
-Casher [3] takes a burger form Cook [2] to Customer [10].
-Casher [3] accepts an order from Customer [18].
-Customer [24] comes.
-Customer [25] comes.
 Customer [9] comes.
 Cook [2] makes a burger.
-Casher [3] takes a burger form Cook [2] to Customer [18].
-Casher [3] accepts an order from Customer [4].
-Customer [2] comes.
+Casher [4] takes a burger form Cook [2] to Customer [40].
+Casher [4] accepts an order from Customer [2].
 Cook [1] makes a burger.
-Casher [3] takes a burger form Cook [1] to Customer [4].
-Casher [3] accepts an order from Customer [24].
-Customer [39] comes.
-Cook [2] makes a burger.
-Casher [3] takes a burger form Cook [2] to Customer [24].
-Casher [3] accepts an order from Customer [25].
-Customer [40] comes.
+Casher [4] takes a burger form Cook [1] to Customer [2].
+Casher [4] accepts an order from Customer [19].
 Cook [1] makes a burger.
-Casher [3] takes a burger form Cook [1] to Customer [25].
-Casher [3] accepts an order from Customer [9].
+Casher [4] takes a burger form Cook [1] to Customer [19].
+Casher [4] accepts an order from Customer [9].
+Customer [37] comes.
 Cook [2] makes a burger.
-Casher [3] takes a burger form Cook [2] to Customer [9].
-Casher [3] accepts an order from Customer [2].
+Casher [4] takes a burger form Cook [2] to Customer [9].
+Casher [4] accepts an order from Customer [37].
+Customer [14] comes.
 Cook [1] makes a burger.
-Casher [3] takes a burger form Cook [1] to Customer [2].
-Casher [3] accepts an order from Customer [39].
+Casher [4] takes a burger form Cook [1] to Customer [37].
+Casher [4] accepts an order from Customer [14].
+Customer [1] comes.
+Cook [2] makes a burger.
+Casher [4] takes a burger form Cook [2] to Customer [14].
+Casher [4] accepts an order from Customer [1].
+Customer [12] comes.
 Cook [1] makes a burger.
-Casher [3] takes a burger form Cook [1] to Customer [39].
-Casher [3] accepts an order from Customer [40].
-Cook [2] makes a burger.
-Casher [3] takes a burger form Cook [2] to Customer [40].
-Cook [2] makes a burger.
-Casher [4] takes a burger form Cook [2] to Customer [16].
+Casher [4] takes a burger form Cook [1] to Customer [1].
+Casher [4] accepts an order from Customer [12].
+Customer [22] comes.
+Customer [21] comes.
+Customer [6] comes.
 Cook [1] makes a burger.
-Casher [1] takes a burger form Cook [1] to Customer [5].
+Casher [4] takes a burger form Cook [1] to Customer [12].
+Casher [4] accepts an order from Customer [22].
+Customer [10] comes.
 Cook [2] makes a burger.
-Casher [2] takes a burger form Cook [2] to Customer [33].
+Casher [4] takes a burger form Cook [2] to Customer [22].
+Casher [4] accepts an order from Customer [21].
+Customer [13] comes.
+Customer [38] comes.
+Cook [2] makes a burger.
+Casher [4] takes a burger form Cook [2] to Customer [21].
+Casher [4] accepts an order from Customer [6].
+Customer [8] comes.
+Cook [1] makes a burger.
+Casher [4] takes a burger form Cook [1] to Customer [6].
+Casher [4] accepts an order from Customer [10].
+Customer [27] comes.
+Cook [1] makes a burger.
+Casher [4] takes a burger form Cook [1] to Customer [10].
+Casher [4] accepts an order from Customer [13].
+Customer [20] comes.
+Cook [2] makes a burger.
+Casher [4] takes a burger form Cook [2] to Customer [13].
+Casher [4] accepts an order from Customer [38].
+Customer [5] comes.
+Cook [1] makes a burger.
+Casher [4] takes a burger form Cook [1] to Customer [38].
+Casher [4] accepts an order from Customer [8].
+Cook [1] makes a burger.
+Casher [4] takes a burger form Cook [1] to Customer [8].
+Casher [4] accepts an order from Customer [27].
+Cook [1] makes a burger.
+Casher [4] takes a burger form Cook [1] to Customer [27].
+Casher [4] accepts an order from Customer [20].
+Cook [2] makes a burger.
+Casher [4] takes a burger form Cook [2] to Customer [20].
+Casher [4] accepts an order from Customer [5].
+Cook [1] makes a burger.
+Casher [4] takes a burger form Cook [1] to Customer [5].
+Cook [1] makes a burger.
+Casher [1] takes a burger form Cook [1] to Customer [30].
+Cook [2] makes a burger.
+Casher [3] takes a burger form Cook [2] to Customer [3].
+Cook [2] makes a burger.
+Casher [2] takes a burger form Cook [2] to Customer [17].
 All customers are served! Done.
 
 
