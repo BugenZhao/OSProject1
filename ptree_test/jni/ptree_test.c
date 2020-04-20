@@ -1,9 +1,10 @@
-#define _GNU_SOURCE
 #include "../../include/ptree.h"
 
 #include <stdio.h>
 #include <stdlib.h>
 #include <unistd.h>
+
+#define MAX_PRO_CNT 1 << 10
 
 // Traverse `prinfo`s and print them
 // @infos: array of `prinfo`s
@@ -46,10 +47,14 @@ void traverse(struct prinfo *infos, int nr) {
 int main() {
     // Allocate buffers on user stack
     struct prinfo infos[MAX_PRO_CNT];
-    int nr;
+    int nr = MAX_PRO_CNT;
+    int ret = 0;
 
-    syscall(__NR_ptree, infos, &nr);
-    printf("nr=%d\n", nr);
+    ret = syscall(__NR_ptree, infos, &nr);
+    printf(
+        "nr      =%d\n"
+        "returned=%d\n",
+        nr, ret);
 
     // Traverse and print
     traverse(infos, nr);
