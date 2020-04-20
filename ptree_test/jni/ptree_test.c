@@ -70,12 +70,12 @@ void bugens_test(void) {
         fprintf(stderr, "TEST ERROR: *(uint64_t *)(infos + 10)==%ull\n",
                 *(uint64_t *)(infos + 10));
     } else {
-        fprintf(stderr, "TEST PASSED\n");
+        // TEST PASSED
     }
 }
 
 int main(int argc, char **argv) {
-    // Do some test first
+    // Do some TEST first
     bugens_test();
 
     // Allocate buffers on user stack
@@ -84,10 +84,15 @@ int main(int argc, char **argv) {
     int ret = 0;
 
     ret = syscall(__NR_ptree, infos, &nr);
-    printf(
-        "nr (copied)    = %d\n"
-        "ret(traversed) = %d\n\n",
-        nr, ret);
+
+    // Buffer with size 1024 is still not enough??? Check it!
+    if (nr != ret) {
+        fprintf(stderr,
+                "Warning:\n"
+                "  nr (copied)    = %d\n"
+                "  ret(traversed) = %d\n\n",
+                nr, ret);
+    }
 
     // Traverse and print
     traverse(infos, nr);

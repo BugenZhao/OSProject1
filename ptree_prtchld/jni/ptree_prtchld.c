@@ -18,12 +18,12 @@ int main() {
         exit(-1);
     }
     if (cpid == 0) {  // Child
-        printf(STUDENT_ID " Child is  %d\n", getpid());
+        printf(STUDENT_ID " Child  is %d\n", getpid());
         execl("./ptree_test", "ptree_test", NULL);  // Execute `ptree_test`
-        exit(0);
+        fprintf(stderr, "execl error\n");           // Should never reach here
+        exit(-1);
     }
-    // Parent
-    wait(NULL);  // Wait for the child to terminate
+    wait(NULL);  // Parent: wait for the child to terminate
 
     exit(0);
 }

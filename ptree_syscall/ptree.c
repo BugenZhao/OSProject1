@@ -42,16 +42,19 @@ static int task_to_prinfo(const struct task_struct *task, struct prinfo *info) {
 // @knr: `nr` in kernel space
 // @copied_cnt: # of `prinfo`s that we've copied
 // @traversed_cnt: # of `prinfo`s that we've traverses
-static void dfs(struct task_struct *task, struct prinfo *kernbuf, int knr,
-                int *copied_cnt, int *traversed_cnt) {
+// @return: 0 if success, negative if failed
+static int dfs(struct task_struct *task, struct prinfo *kernbuf, int knr,
+               int *copied_cnt, int *traversed_cnt) {
     struct list_head *ptr;
     struct prinfo info;
+    int ret;
 
     if (task == NULL) return;
 
     // Convert `task`
     if (task_to_prinfo(task, &info) != 0) {
-        printk(KERN_ERR "task_to_prinfo error\n");
+        printk(KERN_ERR "error task_to_prinfo\n");
+        return -1;
     }
 
     if (*copied_cnt < knr) {
@@ -63,9 +66,12 @@ static void dfs(struct task_struct *task, struct prinfo *kernbuf, int knr,
 
     // For every child, call `dfs()`
     list_for_each(ptr, &task->children) {
-        dfs(list_entry(ptr, struct task_struct, sibling), kernbuf, knr,
-            copied_cnt, traversed_cnt);
+        ret = dfs(list_entry(ptr, struct task_struct, sibling), kernbuf, knr,
+                  copied_cnt, traversed_cnt);
+        if (ret < 0) return ret;  // Error occured, do not search any more
     }
+
+    return 0;
 }
 
 // Get real process count
@@ -78,33 +84,34 @@ static int proc_count(void) {
 }
 
 // Ptree system call
-// @userbuf: user buffer to store the array of `prinfo`s
+// @buf: user buffer to store the array of `prinfo`s
 // @nr: user buffer to store the number of `prinfo`s
-static int ptree_syscall(struct prinfo *userbuf, int *nr) {
+static int ptree_syscall(struct prinfo *buf, int *nr) {
     int traversed_cnt = 0;
     int copied_cnt = 0;
     int real_cnt = 0;
     int knr = 0;
+    int dfs_ret = 0;
     struct prinfo *kernbuf;
 
-    if (userbuf == NULL) return 0;
+    if (buf == NULL) return 0;
 
     // Get nr from user space
     if (copy_from_user(&knr, nr, sizeof(int)) != 0) {
-        printk(KERN_ERR "error copy_from_user: nr");
+        printk(KERN_ERR "error copy_from_user: nr\n");
         return 0;
     }
 
     // Allocate kernel buffer
     kernbuf = kmalloc(sizeof(struct prinfo) * knr, 0);
     if (kernbuf == NULL) {
-        printk(KERN_INFO "error kmalloc kernbuf");
+        printk(KERN_INFO "error kmalloc: kernbuf\n");
         return 0;
     }
 
     // Begin the search
     write_lock_irq(&task_lock);  // Lock the task_struct
-    dfs(&init_task, kernbuf, knr, &copied_cnt, &traversed_cnt);  // Do dfs
+    dfs_ret = dfs(&init_task, kernbuf, knr, &copied_cnt, &traversed_cnt);
     real_cnt = proc_count();       // Get real process count
     write_unlock_irq(&task_lock);  // Unlock
 
@@ -122,21 +129,30 @@ static int ptree_syscall(struct prinfo *userbuf, int *nr) {
     printk(KERN_INFO "real_cnt     =%d\n", real_cnt);
     printk(KERN_INFO "knr          =%d\n", knr);
 
+    printk(KERN_INFO "dfs_ret      =%d\n", dfs_ret);
+
     // Warn if something wrong
+    WARN_ON(dfs_ret != 0);  // DFS did not complete
     WARN_ON(traversed_cnt != real_cnt);
     WARN_ON(copied_cnt != knr                 // Buffer size is enough...
             && copied_cnt != traversed_cnt);  // but we copied part of them
 
-    // Copy the results to user buffers
-    if (copy_to_user(userbuf, kernbuf, sizeof(struct prinfo) * knr) != 0) {
-        printk(KERN_INFO "error copy_to_user: buf");
-        return 0;
+    if (dfs_ret == 0) {
+        if (copy_to_user(buf, kernbuf, sizeof(struct prinfo) * knr) != 0) {
+            // Copy the results to user buffers
+            printk(KERN_INFO "error copy_to_user: buf\n");
+            traversed_cnt = 0;
+        } else if (copy_to_user(nr, &copied_cnt, sizeof(int)) != 0) {
+            // Store `copied_cnt` to `nr`
+            printk(KERN_ERR "error copy_to_user: nr\n");
+            traversed_cnt = 0;
+        }
+    } else {
+        traversed_cnt = 0;
     }
-    // Store `copied_cnt` to `nr`
-    if (copy_to_user(nr, &copied_cnt, sizeof(int)) != 0)
-        printk(KERN_ERR "error copy_to_user: nr\n");
-    // Return `traversed_cnt`
-    return traversed_cnt;
+    
+    kfree(kernbuf);        // Free buffer
+    return traversed_cnt;  // Return `traversed_cnt`
 }
 
 // Initialization of module
