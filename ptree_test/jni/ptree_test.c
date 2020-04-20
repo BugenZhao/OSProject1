@@ -61,14 +61,14 @@ void bugens_test(void) {
     } else if (ret < nr) {
         // Traversed must be greater than copied
         fprintf(stderr, "TEST ERROR: ret<nr\n");
-    } else if (*(uint64_t *)(infos + 9) == 0x8888888888888888u) {
+    } else if (*(uint32_t *)(infos + 9) == 0x88888888u) {
         // infos[9] must be written
-        fprintf(stderr, "TEST ERROR: *(uint64_t *)(infos + 9)==%ull\n",
-                *(uint64_t *)(infos + 9));
-    } else if (*(uint64_t *)(infos + 10) != 0x8888888888888888u) {
+        fprintf(stderr, "TEST ERROR: *(uint32_t *)(infos + 9)==%u\n",
+                *(uint32_t *)(infos + 9));
+    } else if (*(uint32_t *)(infos + 10) != 0x88888888u) {
         // infos[10] must NOT be touched
-        fprintf(stderr, "TEST ERROR: *(uint64_t *)(infos + 10)==%ull\n",
-                *(uint64_t *)(infos + 10));
+        fprintf(stderr, "TEST ERROR: *(uint32_t *)(infos + 10)==%u\n",
+                *(uint32_t *)(infos + 10));
     } else {
         // TEST PASSED
     }

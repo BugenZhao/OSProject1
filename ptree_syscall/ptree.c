@@ -49,7 +49,7 @@ static int dfs(struct task_struct *task, struct prinfo *kernbuf, int knr,
     struct prinfo info;
     int ret;
 
-    if (task == NULL) return;
+    if (task == NULL) return -1;
 
     // Convert `task`
     if (task_to_prinfo(task, &info) != 0) {
