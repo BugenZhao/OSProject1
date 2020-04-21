@@ -1,10 +1,18 @@
-# CS356 Operating System Projects - Spring 2020 - Project 1
+# README for CS356 Operating System Projects - Spring 2020 - Project 1
 ## Personal Information
 Ziqi Zhao (赵梓淇, Bugen Zhao, 518030910211), F1803302, CS, SEIEE, SJTU.
-## Build and Run Tests
+## Testscript
+All build and test commands are in `Makefile`.
+
+To run the test, you should determine some arguments then execute the following commands:
 ```bash
-make emulator (AVD_NAME=xxx KERNEL_ZIMG=yyy)  # Start the emulator
-make testall | tee output.txt                 # Build and run tests
+# For more info about the arguments, please refer to Makefile
+# Start the emulator
+make emulator (AVD_NAME=xxx KERNEL_ZIMG=yyy)
+# Build and run tests, will output in `output.txt`
+make testall (KID=xxx TOOLCHAIN=yyy)
+# Do some cleanup
+make clean
 ```
 ## Directory Structure
 ```
@@ -43,3 +51,4 @@ Please refer to [`output.txt`](output.txt)
 ## Reference
 - *Computer Systems: A Programmer's Perspective* for `sbuf.c` in Problem 4
 - *Visual Studio Code `c_cpp_properties.json` reference* [ (link) ](https://code.visualstudio.com/docs/cpp/c-cpp-properties-schema-reference)
+- Stack Overflow
