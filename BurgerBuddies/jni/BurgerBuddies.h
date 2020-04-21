@@ -1,3 +1,5 @@
+// Header for BurgerBuddies.c with some `random` utilities
+
 #ifndef BUGEN_BUGRERBUDDIES_H
 #define BUGEN_BUGRERBUDDIES_H
 
@@ -27,7 +29,7 @@ int randint(int lo, int hi) {
 
 // Random sleep for seconds in [lo, hi]
 void randslp(float lo, float hi) {
-    int cs = randint(lo * 10, hi * 10); // centi-second
+    int cs = randint(lo * 10, hi * 10);  // centi-second
     while (cs--) usleep(100000);
 }
 

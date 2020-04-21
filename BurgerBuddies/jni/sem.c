@@ -1,3 +1,5 @@
+// A wrapper library for semaphores
+
 #include "sem.h"
 #include "bugen_bbc.h"
 

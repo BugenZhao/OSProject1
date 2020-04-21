@@ -1,3 +1,5 @@
+// Header for `sbuf.c`
+
 //
 // Created by Bugen Zhao on 2020/3/7.
 //

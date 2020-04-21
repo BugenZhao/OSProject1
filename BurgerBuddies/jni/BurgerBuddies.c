@@ -1,3 +1,5 @@
+// Main code of problem 4
+
 #include "BurgerBuddies.h"
 
 #include "bugen_bbc.h"

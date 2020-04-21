@@ -1,3 +1,5 @@
+// Header for `sem.c`
+
 #ifndef BUGEN_SEM_H
 #define BUGEN_SEM_H
 
