@@ -1,3 +1,5 @@
+// A simple thread-safe FIFO buffer library inspired by CSAPP
+
 //
 // Created by Bugen Zhao on 2020/3/7.
 //

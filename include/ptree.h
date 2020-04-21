@@ -1,3 +1,5 @@
+// Definition of `prinfo`, both for kernel and user
+
 #ifndef BUGEN_LINUX_PTREE_H
 #define BUGEN_LINUX_PTREE_H
 
