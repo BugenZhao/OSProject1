@@ -11,7 +11,7 @@ sem_t rand_sem;
 // A naive utility to get a random integer between lo and hi
 // @lo: lower bound of random int
 // @hi: upper bound of random int
-int randint(int lo, int hi) {
+static int randint(int lo, int hi) {
     int ret;
 
     P(&rand_sem);
@@ -28,7 +28,7 @@ int randint(int lo, int hi) {
 }
 
 // Random sleep for seconds in [lo, hi]
-void randslp(float lo, float hi) {
+static void randslp(float lo, float hi) {
     int cs = randint(lo * 10, hi * 10);  // centi-second
     while (cs--) usleep(100000);
 }
