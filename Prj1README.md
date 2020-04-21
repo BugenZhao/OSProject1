@@ -32,12 +32,11 @@ make testall | tee output.txt                 # Build and run tests
 │   │   ├── Android.mk
 │   │   └── ptree_prtchld.c       # Main code of problem 3
 │   └── Makefile
-├── ptree_test                  # Problem 2: Print the tree
-│   ├── jni
-│   │   ├── Android.mk
-│   │   └── ptree_test.c          # Main code of problem 2
-│   └── Makefile
-└
+└── ptree_test                  # Problem 2: Print the tree
+    ├── jni
+    │   ├── Android.mk
+    │   └── ptree_test.c          # Main code of problem 2
+    └── Makefile
 ```
 ## Sample Output
 Please refer to [`output.txt`](output.txt)
