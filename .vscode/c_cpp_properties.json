@@ -13,7 +13,7 @@
                 "_GNU_SOURCE"
             ],
             "compilerPath": "/usr/bin/gcc",
-            "cStandard": "c89",
+            "cStandard": "c99",
             "intelliSenseMode": "gcc-x64",
             "browse": {
                 "path": [

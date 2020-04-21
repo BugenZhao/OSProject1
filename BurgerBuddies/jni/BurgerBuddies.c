@@ -21,6 +21,17 @@ sem_t printf_sem;
 sbuf_t customers;
 sbuf_t burgers;
 
+#if 1
+#define printf_safe(fmt, args...) \
+    do {                          \
+        P(&printf_sem);           \
+        printf(fmt, args);        \
+        V(&printf_sem);           \
+    } while (0)
+#else
+#define printf_safe(fmt, args...) printf(fmt, args)
+#endif
+
 // Cook thread
 // @_i: pointer to the number
 void* cook(void* _i) {
@@ -32,9 +43,7 @@ void* cook(void* _i) {
         // Make a burger
         sbuf_insert(&burgers, i);
         // Print info
-        P(&printf_sem);
-        printf("Cook [%d] makes a burger.\n", i);
-        V(&printf_sem);
+        printf_safe("Cook [%d] makes a burger.\n", i);
     }
     pthread_exit(NULL);
 }
@@ -49,19 +58,16 @@ void* cashier(void* _i) {
         // Accept a customer
         customer = sbuf_remove(&customers);
         // Print info
-        P(&printf_sem);
-        printf("Casher [%d] accepts an order from Customer [%d].\n", i,
-               customer);
-        V(&printf_sem);
+        printf_safe("Casher [%d] accepts an order from Customer [%d].\n", i,
+                    customer);
         // Get a burger
         cook = sbuf_remove(&burgers);
         // Yep! We've served one!
         V(&customer_sem);
         // Print info
-        P(&printf_sem);
-        printf("Casher [%d] takes a burger form Cook [%d] to Customer [%d].\n",
-               i, cook, customer);
-        V(&printf_sem);
+        printf_safe(
+            "Casher [%d] takes a burger form Cook [%d] to Customer [%d].\n", i,
+            cook, customer);
     }
     pthread_exit(NULL);
 }
@@ -75,9 +81,7 @@ void* customer(void* _i) {
     // Enter the burger buddies!
     sbuf_insert(&customers, i);
     // Print info
-    P(&printf_sem);
-    printf("Customer [%d] comes.\n", i);
-    V(&printf_sem);
+    printf_safe("Customer [%d] comes.\n", i);
 
     // The customer does not leave.
     // In fact, he is waiting in the `customers` buffer
@@ -88,7 +92,7 @@ void* customer(void* _i) {
 void init() {
     // For random sleep in `BurgerBuddies.h`
     Sem_init(&rand_sem, 1);
-    // For safer `printf()`
+    // For `printf_safe()`
     Sem_init(&printf_sem, 1);
 }
 
