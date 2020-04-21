@@ -132,8 +132,8 @@ static int ptree_syscall(struct prinfo *buf, int *nr) {
     printk(KERN_INFO "dfs_ret      =%d\n", dfs_ret);
 
     // Warn if something wrong
-    WARN_ON(dfs_ret != 0);  // DFS did not complete
-    WARN_ON(traversed_cnt != real_cnt);
+    WARN_ON(dfs_ret != 0);                    // DFS did not complete
+    WARN_ON(traversed_cnt != real_cnt);       // May not traverse all?
     WARN_ON(copied_cnt != knr                 // Buffer size is enough...
             && copied_cnt != traversed_cnt);  // but we copied part of them
 
@@ -150,7 +150,7 @@ static int ptree_syscall(struct prinfo *buf, int *nr) {
     } else {
         traversed_cnt = 0;
     }
-    
+
     kfree(kernbuf);        // Free buffer
     return traversed_cnt;  // Return `traversed_cnt`
 }
