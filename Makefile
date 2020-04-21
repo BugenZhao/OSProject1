@@ -82,4 +82,4 @@ clean:
 	make -C ${BBC_DIR} clean
 
 handin:
-	tar -cvf Prj1+518030910211.tar .
+	tar --exclude-vcs -cvf Prj1+518030910211.tar .
