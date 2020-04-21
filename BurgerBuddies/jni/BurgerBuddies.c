@@ -5,10 +5,16 @@
 #include "bugen_bbc.h"
 #include "sbuf.h"
 
-// Throw an error
-void error(char* argv0) {
+// Throw a usage error
+inline void usage_error(char* argv0) {
     printf("Usage: %s #Cooks #Cashiers #Customers #RackSize\n", argv0);
     exit(-1);
+}
+
+// Throw a runtime error
+inline void thread_error(void) {
+    fprintf(stderr, "Failed to create thread.\n");
+    exit(-2);
 }
 
 // Record how many customers have we served
@@ -104,12 +110,12 @@ int main(int argc, char** argv) {
     int* para;
 
     // Parse the arguments
-    if (argc != 5) error(argv[0]);
+    if (argc != 5) usage_error(argv[0]);
     co = atoi(argv[1]);
     ca = atoi(argv[2]);
     cu = atoi(argv[3]);
     ra = atoi(argv[4]);
-    if (co <= 0 || ca <= 0 || cu <= 0 || ra <= 0) error(argv[0]);
+    if (co <= 0 || ca <= 0 || cu <= 0 || ra <= 0) usage_error(argv[0]);
 
     // Init semaphores
     init();
@@ -125,26 +131,27 @@ int main(int argc, char** argv) {
     // Create threads
     for (i = 0; i < cu; i++) {
         // Allocate space for argument (#)
-        // `free()` is not needed,
+        // Note that `free()` is not needed,
         //  since we will do this for just (cu+co+ca) -> very limited times
-        para = malloc(sizeof(int));
+        if ((para = malloc(sizeof(int))) == NULL) thread_error();
         *para = i + 1;
-        pthread_create(&tid, NULL, customer, para);
+        if (pthread_create(&tid, NULL, customer, para)) thread_error();
     }
     for (i = 0; i < co; i++) {
-        para = malloc(sizeof(int));
+        if ((para = malloc(sizeof(int))) == NULL) thread_error();
         *para = i + 1;
-        pthread_create(&tid, NULL, cook, para);
+        if (pthread_create(&tid, NULL, cook, para)) thread_error();
     }
     for (i = 0; i < ca; i++) {
-        para = malloc(sizeof(int));
+        if ((para = malloc(sizeof(int))) == NULL) thread_error();
         *para = i + 1;
-        pthread_create(&tid, NULL, cashier, para);
+        if (pthread_create(&tid, NULL, cashier, para)) thread_error();
     }
 
-    // Wait for all `cu` customers to be serverd
+    // Wait for all customers to be serverd
     for (i = 0; i < cu; ++i) P(&customer_sem);
     printf("All customers are served! Done.\n");
 
+    // According to POSIX, exit() of main thread will safely terminate others
     exit(0);
 }
