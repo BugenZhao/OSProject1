@@ -24,14 +24,14 @@ make testall | tee output.txt                 # Build and run tests
 │   └── ptree.h                  # Definition of `prinfo`, both for kernel and user
 ├── Makefile                    # Makefile of project
 ├── Prj1README.md               # This README file
-├── ptree_syscall               # Problem 1: `ptree` system call module
-│   ├── Makefile
-│   └── ptree.c                  # Main code of problem 1 - `ptree` syscall
 ├── ptree_prtchld               # Problem 3: Parent and child
 │   ├── jni
 │   │   ├── Android.mk
 │   │   └── ptree_prtchld.c       # Main code of problem 3
 │   └── Makefile
+├── ptree_syscall               # Problem 1: `ptree` system call module
+│   ├── Makefile
+│   └── ptree.c                  # Main code of problem 1 - `ptree` syscall
 └── ptree_test                  # Problem 2: Print the tree
     ├── jni
     │   ├── Android.mk
