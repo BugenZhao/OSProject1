@@ -131,7 +131,7 @@ int main(int argc, char** argv) {
     // Create threads
     for (i = 0; i < cu; i++) {
         // Allocate space for argument (#)
-        // No that `free()` is not needed,
+        // Note that `free()` is not needed,
         //  since we will do this for just (cu+co+ca) -> very limited times
         if ((para = malloc(sizeof(int))) == NULL) thread_error();
         *para = i + 1;
