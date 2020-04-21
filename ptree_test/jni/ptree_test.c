@@ -62,6 +62,7 @@ void bugens_test(void) {
     struct prinfo infos[MAX_PRO_CNT];
     int nr = 10;
     int zero = 0;
+    int negone = -1;
     int ret = 0;
     memset(infos, 0x88, sizeof(struct prinfo) * MAX_PRO_CNT);  // Write 0x88
 
@@ -89,6 +90,14 @@ void bugens_test(void) {
     bugen_assert(3, *(uint32_t *)(infos + 10), ==, 0x88888888u, "%u");
     // Should not modify `zero`
     bugen_assert(3, zero, ==, 0, "%d");
+
+    // Part 4
+    // Negative nr
+    ret = syscall(__NR_ptree, infos + 20, &negone);
+    // infos[20] must NOT be touched
+    bugen_assert(4, *(uint32_t *)(infos + 20), ==, 0x88888888u, "%u");
+    // Should not modify `negone`
+    bugen_assert(4, negone, ==, -1, "%d");
 }
 
 int main(int argc, char **argv) {
