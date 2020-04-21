@@ -7,6 +7,14 @@
 
 #define MAX_PRO_CNT 1 << 10
 
+#undef BUGEN_DEBUG
+
+#define bugen_assert(no, lhs, op, rhs, format)                                 \
+    if (!((lhs)op(rhs))) {                                                     \
+        fprintf(stderr, "%s:%d: TEST " #no " ERROR: " #lhs " == " format "\n", \
+                __FILE__, __LINE__, (lhs));                                    \
+    }
+
 // Traverse `prinfo`s and print them
 // @infos: array of `prinfo`s
 // @nr: number of `prinfo`s
@@ -47,36 +55,45 @@ void traverse(struct prinfo *infos, int nr) {
 
 // My test for ptree
 void bugens_test(void) {
+    // Part 1
     // Emulate the case, where the buffer size is not enough
     struct prinfo infos[MAX_PRO_CNT];
     int nr = 10;
+    int zero = 0;
     int ret = 0;
-    // Write 0x88
-    memset(infos, 0x88, sizeof(struct prinfo) * MAX_PRO_CNT);
+    memset(infos, 0x88, sizeof(struct prinfo) * MAX_PRO_CNT);  // Write 0x88
 
     ret = syscall(__NR_ptree, infos, &nr);
-    if (nr != 10) {
-        // It is believed that there must exist 10 processes
-        fprintf(stderr, "TEST ERROR: nr==%d\n", nr);
-    } else if (ret < nr) {
-        // Traversed must be greater than copied
-        fprintf(stderr, "TEST ERROR: ret<nr\n");
-    } else if (*(uint32_t *)(infos + 9) == 0x88888888u) {
-        // infos[9] must be written
-        fprintf(stderr, "TEST ERROR: *(uint32_t *)(infos + 9)==%u\n",
-                *(uint32_t *)(infos + 9));
-    } else if (*(uint32_t *)(infos + 10) != 0x88888888u) {
-        // infos[10] must NOT be touched
-        fprintf(stderr, "TEST ERROR: *(uint32_t *)(infos + 10)==%u\n",
-                *(uint32_t *)(infos + 10));
-    } else {
-        // TEST PASSED
-    }
+
+    // It is believed that there must exist 10 processes
+    bugen_assert(1, nr, ==, 10, "%d");
+    // Traversed must be greater than copied
+    bugen_assert(1, ret, >, nr, "%d");
+    // infos[9] must be written
+    bugen_assert(1, *(uint32_t *)(infos + 9), !=, 0x88888888u, "%u");
+    // infos[10] must NOT be touched
+    bugen_assert(1, *(uint32_t *)(infos + 10), ==, 0x88888888u, "%u");
+
+    // Part 2
+    // NULL buffer
+    ret = syscall(__NR_ptree, NULL, &nr);
+    // Should directly return
+    bugen_assert(2, ret, ==, 0, "%d");
+
+    // Part 3
+    // Zero nr
+    ret = syscall(__NR_ptree, infos + 10, &zero);
+    // infos[10] must NOT be touched
+    bugen_assert(3, *(uint32_t *)(infos + 10), ==, 0x88888888u, "%u");
+    // Should not modify `zero`
+    bugen_assert(3, zero, ==, 0, "%d");
 }
 
 int main(int argc, char **argv) {
     // Do some TEST first
+#ifdef BUGEN_DEBUG
     bugens_test();
+#endif
 
     // Allocate buffers on user stack
     struct prinfo infos[MAX_PRO_CNT];

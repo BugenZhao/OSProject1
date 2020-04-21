@@ -1,5 +1,7 @@
 AVD_NAME=OsPrj-518030910211
 KERNEL_ZIMG=~/Android/kernel/goldfish/arch/arm/boot/zImage
+KID=~/Android/kernel/goldfish
+TOOLCHAIN=/home/bugenzhao/Android/android-ndk-linux/toolchains/arm-linux-androideabi-4.9/prebuilt/linux-x86_64/bin
 
 MODULE_DIR=./ptree_syscall
 MODULE_NAME=ptree.ko
@@ -33,14 +35,15 @@ help:
 emulator:
 	emulator -avd ${AVD_NAME} -kernel ${KERNEL_ZIMG} -no-window -show-kernel
 
-testall: clean run
+testall: clean
+	make run | tee output.txt
 
 shell:
 	adb shell
 
 build:
 	@echo "\n\n\n>> Building..."
-	make -C ${MODULE_DIR}
+	make -C ${MODULE_DIR} KID=${KID} TOOLCHAIN=${TOOLCHAIN}
 	make -C ${OBJ2_DIR}
 	make -C ${OBJ3_DIR}
 	make -C ${BBC_DIR}
