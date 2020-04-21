@@ -103,6 +103,7 @@ static int ptree_syscall(struct prinfo *buf, int *nr) {
         printk(KERN_ERR "error copy_from_user: nr\n");
         return 0;
     }
+    if (knr <= 0) return 0;
 
     // Allocate kernel buffer
     kernbuf = kmalloc(sizeof(struct prinfo) * knr, 0);
