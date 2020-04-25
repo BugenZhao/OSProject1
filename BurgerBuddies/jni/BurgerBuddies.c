@@ -122,11 +122,11 @@ int main(int argc, char** argv) {
     Sem_init(&customer_sem, 0);
 
     // Init buffers with their capacity
-    sbuf_init(&customers, ca);
-    sbuf_init(&burgers, ra);
+    sbuf_init(&customers, cu);  // All customers can come in
+    sbuf_init(&burgers, ra);    // # of burgers < # of rack slots
 
     printf("Welcome to Bugen's Burger Buddies!\n");
-    printf("Cooks [%d], Cashiers [%d], Customers [%d]\n\n", co, ca, cu);
+    printf("Cooks [%d], Cashiers [%d], Customers [%d]\nBegin Run.\n", co, ca, cu);
 
     // Create threads
     for (i = 0; i < cu; i++) {
