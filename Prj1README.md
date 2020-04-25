@@ -5,6 +5,7 @@ Ziqi Zhao (赵梓淇, Bugen Zhao, 518030910211), F1803302, CS, SEIEE, SJTU.
 All build and test commands are in `Makefile`.
 
 To run the test, you should determine some required arguments then execute the following commands:
+
 ```sh
 # For more info about the arguments, please refer to Makefile
 # Start the emulator
@@ -14,7 +15,9 @@ make testall (KID=xxx TOOLCHAIN=yyy)
 # Do some cleanup
 make clean
 ```
+
 ## Directory Structure
+
 ```
 .
 ├── BurgerBuddies               # Problem 4: Burger Buddies
@@ -46,6 +49,7 @@ make clean
     │   └── ptree_test.c          # Main code of problem 2
     └── Makefile
 ```
+
 ## Sample Output
 Please refer to [`output.txt`](output.txt)
 ## Reference
