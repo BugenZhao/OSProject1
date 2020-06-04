@@ -1,10 +1,10 @@
 # Report for CS356 Operating System Projects - Spring 2020 - Project 1
 
-##Personal Information
+## Personal Information
 
 Ziqi Zhao (赵梓淇, Bugen Zhao, 518030910211), F1803302, CS, SEIEE, SJTU. 
 
-##Introduction
+## Introduction
 
 In this project, we are asked to learn about Linux kernel development, to understand how to add and use Linux system calls, and basic knowledge of process/thread synchronization in the operating system. In addition to meeting the project requirements, in this report, I've found the following techniques helpful for us doing the kernel and concurrency development in a more efficient, secure, and robust way.
 
